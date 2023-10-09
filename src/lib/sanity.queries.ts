@@ -3,29 +3,32 @@ import type { ImageAsset, Slug } from '@sanity/types'
 import groq from 'groq'
 import { type SanityClient } from 'next-sanity'
 
-export const postsQuery = groq`*[_type == "post" && defined(slug.current)] | order(_createdAt desc)`
+export const propertiesQuery = groq`*[_type == "property" && defined(slug.current)] | order(_createdAt desc)`
 
-export async function getPosts(client: SanityClient): Promise<Post[]> {
-  return await client.fetch(postsQuery)
+export async function getProperties(client: SanityClient): Promise<Property[]> {
+  return await client.fetch(propertiesQuery)
 }
 
-export const postBySlugQuery = groq`*[_type == "post" && slug.current == $slug][0]`
+export const propertyBySlugQuery = groq`*[_type == "property" && slug.current == $slug][0]{
+  ...,
+  agent->
+}`
 
-export async function getPost(
+export async function getProperty(
   client: SanityClient,
   slug: string,
-): Promise<Post> {
-  return await client.fetch(postBySlugQuery, {
+): Promise<Property> {
+  return await client.fetch(propertyBySlugQuery, {
     slug,
   })
 }
 
-export const postSlugsQuery = groq`
+export const propertySlugsQuery = groq`
 *[_type == "post" && defined(slug.current)][].slug.current
 `
 
-export interface Post {
-  _type: 'post'
+export interface Property {
+  _type: 'property'
   _id: string
   _createdAt: string
   title?: string
@@ -33,4 +36,19 @@ export interface Post {
   excerpt?: string
   mainImage?: ImageAsset
   body: PortableTextBlock[]
+  agent: Agent
+}
+
+export interface Agent {
+  _id: string
+  _createdAt: string
+  title: string
+  firstName?: string
+  lastName?: string
+  mlsId: string
+  telephone: string
+  email: string
+  slug: string
+  description: string
+  mainImage?: ImageAsset
 }

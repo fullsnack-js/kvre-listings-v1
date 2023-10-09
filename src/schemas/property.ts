@@ -1,6 +1,7 @@
 import { defineField, defineType } from 'sanity'
 
 import agentType from "./agent"
+import propertyAttributes from './propertyAttributes'
 
 export default defineType({
   name: 'property',
@@ -16,7 +17,42 @@ export default defineType({
       name: 'agent',
       title: 'Agent',
       type: 'reference',
-      to: [{ type: agentType.title }],
+      to: [{ type: 'agent' }],
+    }),
+    defineField({
+      name: 'address',
+      type: 'object',
+      title: 'Address',
+      // group: 'location',
+      options: {
+        columns: 2,
+      },
+      fields: [
+        defineField({
+          name: 'street',
+          type: 'string',
+          title: 'Street',
+        }),
+        defineField({
+          name: 'other',
+          type: 'string',
+          title: 'Other (Floor, suite, etc.)',
+        }),
+        defineField({
+          name: 'city',
+          type: 'string',
+        }),
+        defineField({
+          name: 'state',
+          type: 'string',
+        }),
+    defineField({
+          name: 'postalCode',
+          type: 'string',
+          title: 'ZIP/Postal Code',
+        }),
+        defineField({ name: 'neighborhood', title: 'Neighborhood', type: 'string' }),
+      ],
     }),
     defineField({
       name: 'slug',
@@ -42,6 +78,12 @@ export default defineType({
         hotspot: true,
       },
     }),
+    defineField({
+      name: 'imageGallery',
+      title: 'Image Gallery',
+      type: 'gallery'
+    }),
+    propertyAttributes,
     defineField({
       name: 'body',
       title: 'Body',

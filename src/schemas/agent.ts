@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'agent',
@@ -28,7 +28,7 @@ export default defineType({
     defineField({
       name: 'telephone',
       title: 'Contact Phone Number',
-      type: 'telephone',
+      type: 'string',
 //       validation: Rule => Rule.custom(telephone => {
 // if (typeof telephone === 'undefined'){
 //   return true
@@ -58,6 +58,13 @@ export default defineType({
         })
     }),
     defineField({
+      name: 'socials',
+      title: 'Social Media Accounts',
+      type: 'array',
+      of: [defineArrayMember({ type: 'social' })],
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -84,7 +91,7 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: 'name',
+      title: 'title',
       media: 'mainImage',
     },
   },

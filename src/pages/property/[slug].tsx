@@ -8,10 +8,10 @@ import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
 import { urlForImage } from '~/lib/sanity.image'
 import {
-  getPost,
-  type Post,
-  postBySlugQuery,
-  postSlugsQuery,
+  getProperty,
+  type Property,
+  propertyBySlugQuery,
+  propertySlugsQuery,
 } from '~/lib/sanity.queries'
 import type { SharedPageProps } from '~/pages/_app'
 import { formatDate } from '~/utils'
@@ -22,14 +22,14 @@ interface Query {
 
 export const getStaticProps: GetStaticProps<
   SharedPageProps & {
-    post: Post
+    property: Property
   },
   Query
 > = async ({ draftMode = false, params = {} }) => {
   const client = getClient(draftMode ? { token: readToken } : undefined)
-  const post = await getPost(client, params.slug)
+  const property = await getProperty(client, params.slug)
 
-  if (!post) {
+  if (!property) {
     return {
       notFound: true,
     }
@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps<
     props: {
       draftMode,
       token: draftMode ? readToken : '',
-      post,
+      property,
     },
   }
 }
@@ -47,30 +47,30 @@ export const getStaticProps: GetStaticProps<
 export default function ProjectSlugRoute(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
-  const [post] = useLiveQuery(props.post, postBySlugQuery, {
-    slug: props.post.slug.current,
+  const [property] = useLiveQuery(props.property, propertyBySlugQuery, {
+    slug: props.property.slug.current,
   })
 
   return (
     <Container>
-      <section className="post">
-        {post.mainImage ? (
+      <section className="property">
+        {property.mainImage ? (
           <Image
-            className="post__cover"
-            src={urlForImage(post.mainImage).url()}
+            className="property__cover"
+            src={urlForImage(property.mainImage).url()}
             height={231}
             width={367}
             alt=""
           />
         ) : (
-          <div className="post__cover--none" />
+          <div className="property__cover--none" />
         )}
-        <div className="post__container">
-          <h1 className="post__title">{post.title}</h1>
-          <p className="post__excerpt">{post.excerpt}</p>
-          <p className="post__date">{formatDate(post._createdAt)}</p>
-          <div className="post__content">
-            <PortableText value={post.body} />
+        <div className="property__container">
+          <h1 className="property__title">{property.title}</h1>
+          <p className="property__excerpt">{property.excerpt}</p>
+          <p className="property__date">{formatDate(property._createdAt)}</p>
+          <div className="property__content">
+            <PortableText value={property.body} />
           </div>
         </div>
       </section>
@@ -80,10 +80,10 @@ export default function ProjectSlugRoute(
 
 export const getStaticPaths = async () => {
   const client = getClient()
-  const slugs = await client.fetch(postSlugsQuery)
+  const slugs = await client.fetch(propertySlugsQuery)
 
   return {
-    paths: slugs?.map(({ slug }) => `/post/${slug}`) || [],
+    paths: slugs?.map(({ slug }) => `/property/${slug}`) || [],
     fallback: 'blocking',
   }
 }

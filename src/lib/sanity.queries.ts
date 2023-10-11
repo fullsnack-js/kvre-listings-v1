@@ -3,6 +3,8 @@ import type { ImageAsset, Slug } from '@sanity/types'
 import groq from 'groq'
 import { type SanityClient } from 'next-sanity'
 
+import propertyAttributes from '~/schemas/propertyAttributes'
+
 export const propertiesQuery = groq`*[_type == "property" && defined(slug.current)] | order(_createdAt desc)`
 
 export async function getProperties(client: SanityClient): Promise<Property[]> {
@@ -37,6 +39,31 @@ export interface Property {
   mainImage?: ImageAsset
   body: PortableTextBlock[]
   agent: Agent
+  address: {
+    city: string
+    neighborhood: string
+    postalCode: number
+    state: string
+    street: string
+  }
+  propertyAttributes: {
+    numberRooms: number
+    mlsNumber: number
+    hoa: string
+    lotSize: number
+    parking: string
+    houseSqft: number
+    price: number
+    bedrooms: number
+    priceSqFt: number
+    ac: string
+    yearBuilt: number
+    numberFloors: number
+    bathrooms: number
+    propertyType: string
+    basement: string
+    heating: string
+  }
 }
 
 export interface Agent {

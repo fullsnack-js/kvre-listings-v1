@@ -45,7 +45,7 @@ export default defineField({
         }),
         defineField({
             title: 'Bedrooms',
-            name: 'Bedrooms',
+            name: 'bedrooms',
             type: 'number',
             group: 'interior'
         }),

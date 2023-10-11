@@ -30,3 +30,4 @@ export default function Card({ property }: { property: Property }) {
     </div>
   )
 }
+

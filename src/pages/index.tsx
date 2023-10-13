@@ -2,6 +2,7 @@ import type { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { useLiveQuery } from 'next-sanity/preview'
 
 import Container from '~/components/Container'
+import PropertyCard from '~/components/PropertyCard'
 import Card, {TwCard} from '~/components/PropertyCard'
 import Welcome from '~/components/Welcome'
 import { readToken } from '~/lib/sanity.api'
@@ -31,14 +32,21 @@ export default function IndexPage(
 ) {
   const [properties] = useLiveQuery<Property[]>(props.properties, propertiesQuery)
   return (
-    <Container>
-      <section>
-        {properties.length ? (
-          properties.map((property) => <Card key={property._id} property={property} />)
-        ) : (
-          <Welcome />
-        )}
-      </section>
-    </Container>
+    <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+      <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+        {properties.map((property) => (
+          <PropertyCard key={property._id} property={property}/>
+        ))}
+      </div>
+    </div>
+    // <Container>
+    //   <section>
+    //     {properties.length ? (
+    //       properties.map((property) => <Card key={property._id} property={property} />)
+    //     ) : (
+    //       <Welcome />
+    //     )}
+    //   </section>
+    // </Container>
   )
 }

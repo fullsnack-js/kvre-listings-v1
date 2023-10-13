@@ -5,7 +5,10 @@ import { type SanityClient } from 'next-sanity'
 
 import propertyAttributes from '~/schemas/propertyAttributes'
 
-export const propertiesQuery = groq`*[_type == "property" && defined(slug.current)] | order(_createdAt desc)`
+export const propertiesQuery = groq`*[_type == "property" && defined(slug.current)] | order(_createdAt desc){
+  ...,
+  agent->
+}`
 
 export async function getProperties(client: SanityClient): Promise<Property[]> {
   return await client.fetch(propertiesQuery)

@@ -29,6 +29,7 @@
     "styled-components": "5.3.11"
   },
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/react": "18.2.20",
     "autoprefixer": "^10.4.15",
     "eslint": "8.47.0",

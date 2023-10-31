@@ -67,6 +67,7 @@ export interface Property {
     basement: string
     heating: string
   }
+  imageGallery:{images: {}[]}
 }
 
 export interface Agent {

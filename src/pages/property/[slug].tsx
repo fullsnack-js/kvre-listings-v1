@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useLiveQuery } from 'next-sanity/preview'
 
 import Container from '~/components/Container'
+import ListingPhotos from '~/components/ListingPhotos'
 import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
 import { urlForImage } from '~/lib/sanity.image'
@@ -43,8 +44,39 @@ export const getStaticProps: GetStaticProps<
     },
   }
 }
+export default function PropertySlugRoute(
+  props: InferGetStaticPropsType<typeof getStaticProps>,
+) {
+  const [property] = useLiveQuery(props.property, propertyBySlugQuery, {
+    slug: props.property.slug.current,
+  })
 
-export default function ProjectSlugRoute(
+  return (
+    <div>
+      <div>
+        {/* <Navbar /> */}
+        <div className='px-20 pt-10 text-black grid gap-10' style={{ gridTemplateColumns: "70fr 30fr" }}>
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-1">
+              <h2 className="text-5xl">{property.title}</h2>
+              <span className="text-lg cursor-pointer underline">{property.address.neighborhood}</span>
+            </div>
+<ListingPhotos {...property}/>
+</div>
+<div className="flex flex-col gap-5">
+  <div className="flex flex-col gap-3">
+    <h3 className="text-2xl font-semibold">
+
+    </h3>
+  </div>
+</div>
+          </div>
+        </div>
+      </div>
+
+  )
+}
+export function ProjectSlugR(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
   const [property] = useLiveQuery(props.property, propertyBySlugQuery, {

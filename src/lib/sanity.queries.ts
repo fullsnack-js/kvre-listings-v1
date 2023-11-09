@@ -2,7 +2,6 @@ import type { PortableTextBlock } from '@portabletext/types'
 import type { ImageAsset, Slug } from '@sanity/types'
 import groq from 'groq'
 import { type SanityClient } from 'next-sanity'
-
 import propertyAttributes from '~/schemas/propertyAttributes'
 
 export const propertiesQuery = groq`*[_type == "property" && defined(slug.current)] | order(_createdAt desc){
@@ -83,3 +82,4 @@ export interface Agent {
   description: string
   mainImage?: ImageAsset
 }
+

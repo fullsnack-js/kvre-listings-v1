@@ -1,10 +1,10 @@
 import type { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { useLiveQuery } from 'next-sanity/preview'
 
-import Container from '~/components/Container'
+// import Container from '~/components/Container'
 import PropertyCard from '~/components/PropertyCard'
-import Card, {TwCard} from '~/components/PropertyCard'
-import Welcome from '~/components/Welcome'
+// import Card, TwCard from '~/components/PropertyCard'
+// import Welcome from '~/components/Welcome'
 import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
 import { getProperties, propertiesQuery,type Property } from '~/lib/sanity.queries'
